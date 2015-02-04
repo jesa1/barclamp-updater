@@ -15,18 +15,32 @@
 # limitations under the License.
 #
 
-barclamp:
-  name: 'updater'
-  display: 'Updater'
-  description: 'System Package Updater'
-  version: 0
-  user_managed: true
-  member:
-    - 'crowbar'
+require "coveralls"
+require "codeclimate-test-reporter"
+require "simplecov"
 
-crowbar:
-  layout: 1
-  order: 99
-  run_order: 99
-  chef_order: 99
-  proposal_schema_version: 3
+Coveralls.wear!
+
+if ENV["CODECLIMATE_REPO_TOKEN"]
+  CodeClimate::TestReporter.start
+
+  SimpleCov.start do
+    add_filter "/spec"
+
+    formatter SimpleCov::Formatter::MultiFormatter[
+      SimpleCov::Formatter::HTMLFormatter,
+      CodeClimate::TestReporter::Formatter
+    ]
+  end
+else
+  SimpleCov.start do
+    add_filter "/spec"
+  end
+end
+
+require "barclamp-updater"
+require "rspec"
+
+RSpec.configure do |config|
+  config.mock_with :rspec
+end

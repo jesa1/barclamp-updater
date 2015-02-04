@@ -1,5 +1,6 @@
 #
-# Copyright 2013-2014, SUSE LINUX Products GmbH
+# Copyright 2011-2013, Dell
+# Copyright 2013-2015, SUSE Linux GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,11 +15,16 @@
 # limitations under the License.
 #
 
-source 'https://rubygems.org'
+source "https://rubygems.org"
+gemspec
 
 group :development do
-  gem 'closure-compiler', '~> 1.1.10'
-  gem 'sass', '~> 3.2.19'
-  gem 'sprockets-standalone', '~> 1.2.1'
-  gem 'sprockets', '~> 2.11.0'
+  gem "barclamp-workbench", path: "../barclamp-workbench"
+end
+
+group :test do
+  gem "simplecov", require: false
+  gem "coveralls", require: false
+  gem "codeclimate-test-reporter", require: false
+  gem "rubocop", require: false
 end

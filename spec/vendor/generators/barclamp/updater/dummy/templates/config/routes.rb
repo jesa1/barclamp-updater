@@ -15,18 +15,7 @@
 # limitations under the License.
 #
 
-barclamp:
-  name: 'updater'
-  display: 'Updater'
-  description: 'System Package Updater'
-  version: 0
-  user_managed: true
-  member:
-    - 'crowbar'
-
-crowbar:
-  layout: 1
-  order: 99
-  run_order: 99
-  chef_order: 99
-  proposal_schema_version: 3
+Rails.application.routes.draw do
+  root to: "pages#index"
+  mount Barclamp::Updater::Engine, at: "/updater"
+end

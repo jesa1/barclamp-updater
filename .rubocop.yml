@@ -1,0 +1,25 @@
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/FileName:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/ModuleFunction:
+  Enabled: false
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 25
+
+AllCops:
+  Exclude:
+    - spec/dummy/**/*

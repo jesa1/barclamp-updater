@@ -15,18 +15,20 @@
 # limitations under the License.
 #
 
-barclamp:
-  name: 'updater'
-  display: 'Updater'
-  description: 'System Package Updater'
-  version: 0
-  user_managed: true
-  member:
-    - 'crowbar'
+module Barclamp
+  module Updater
+    class Version
+      MAJOR = 0
+      MINOR = 0
+      PATCH = 1
 
-crowbar:
-  layout: 1
-  order: 99
-  run_order: 99
-  chef_order: 99
-  proposal_schema_version: 3
+      PRE = "alpha0"
+
+      class << self
+        def to_s
+          [MAJOR, MINOR, PATCH, PRE].compact.join(".")
+        end
+      end
+    end
+  end
+end

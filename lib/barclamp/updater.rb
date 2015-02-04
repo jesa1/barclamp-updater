@@ -15,18 +15,20 @@
 # limitations under the License.
 #
 
-barclamp:
-  name: 'updater'
-  display: 'Updater'
-  description: 'System Package Updater'
-  version: 0
-  user_managed: true
-  member:
-    - 'crowbar'
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../../../Gemfile", __FILE__)
 
-crowbar:
-  layout: 1
-  order: 99
-  run_order: 99
-  chef_order: 99
-  proposal_schema_version: 3
+if File.exist? ENV["BUNDLE_GEMFILE"]
+  require "bundler"
+  Bundler.setup(:default, :plugins)
+end
+
+require "barclamp-workbench"
+
+module Barclamp
+  module Updater
+    autoload :Version, File.expand_path(
+      "../updater/version", __FILE__)
+  end
+end
+
+require_relative "updater/engine"

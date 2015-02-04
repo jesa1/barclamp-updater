@@ -15,18 +15,12 @@
 # limitations under the License.
 #
 
-barclamp:
-  name: 'updater'
-  display: 'Updater'
-  description: 'System Package Updater'
-  version: 0
-  user_managed: true
-  member:
-    - 'crowbar'
+require "rails"
 
-crowbar:
-  layout: 1
-  order: 99
-  run_order: 99
-  chef_order: 99
-  proposal_schema_version: 3
+module Barclamp
+  module Updater
+    class Engine < ::Rails::Engine
+      isolate_namespace Barclamp::Updater
+    end
+  end
+end

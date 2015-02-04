@@ -1,5 +1,6 @@
 #
-# Copyright 2013-2014, SUSE LINUX Products GmbH
+# Copyright 2011-2013, Dell
+# Copyright 2013-2015, SUSE Linux GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,33 +16,27 @@
 #
 
 begin
-  require 'sprockets/standalone'
-
-  Sprockets::Standalone::RakeTask.new(:assets) do |task, sprockets|
-    task.assets = [
-      '**/application.js'
-    ]
-
-    task.sources = [
-      'crowbar_framework/app/assets/javascripts'
-    ]
-
-    task.output = 'crowbar_framework/public/assets'
-
-    task.compress = true
-    task.digest = true
-
-    sprockets.js_compressor = :closure
-    sprockets.css_compressor = :sass
-  end
-rescue
+  require "bundler"
+  Bundler::GemHelper.install_tasks
+rescue LoadError
+  warn "Failed to load bundler tasks"
 end
 
-task :syntaxcheck do
-  system('for f in `find -name \*.rb`; do echo -n "Syntaxcheck $f: "; ruby -c $f || exit $? ; done')
-  exit $?.exitstatus
+APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
+load "rails/tasks/engine.rake" if File.exist? APP_RAKEFILE
+load "spec/vendor/tasks/dummy.rake"
+
+Dir.glob("lib/tasks/**/*.rake").each do |r|
+  load r
 end
 
-task :default => [
-  :syntaxcheck
-]
+require "yard"
+YARD::Rake::YardocTask.new
+
+require "rubocop/rake_task"
+RuboCop::RakeTask.new
+
+require "rspec/core/rake_task"
+RSpec::Core::RakeTask.new(:spec)
+
+task default: [:syntaxcheck, :spec, :rubocop]

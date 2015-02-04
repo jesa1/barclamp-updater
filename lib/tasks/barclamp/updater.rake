@@ -15,18 +15,25 @@
 # limitations under the License.
 #
 
-barclamp:
-  name: 'updater'
-  display: 'Updater'
-  description: 'System Package Updater'
-  version: 0
-  user_managed: true
-  member:
-    - 'crowbar'
+namespace :barclamp do
+  namespace :updater do
+    task :environment do
+      require_relative "../../../spec/dummy/config/environment"
+    end
 
-crowbar:
-  layout: 1
-  order: 99
-  run_order: 99
-  chef_order: 99
-  proposal_schema_version: 3
+    desc "Updater barclamp routes"
+    task routes: :environment do
+      require "barclamp-updater"
+      require "action_dispatch/routing/inspector"
+
+      all = Barclamp::Updater::Engine.routes.routes
+
+      inspector = ActionDispatch::Routing::RoutesInspector.new all
+
+      puts inspector.format(
+        ActionDispatch::Routing::ConsoleFormatter.new,
+        ENV["CONTROLLER"]
+      )
+    end
+  end
+end

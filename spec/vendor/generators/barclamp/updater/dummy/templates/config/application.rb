@@ -15,18 +15,14 @@
 # limitations under the License.
 #
 
-barclamp:
-  name: 'updater'
-  display: 'Updater'
-  description: 'System Package Updater'
-  version: 0
-  user_managed: true
-  member:
-    - 'crowbar'
+require File.expand_path("../boot", __FILE__)
 
-crowbar:
-  layout: 1
-  order: 99
-  run_order: 99
-  chef_order: 99
-  proposal_schema_version: 3
+Bundler.require
+
+require "rails/all"
+require "barclamp-updater"
+
+module Dummy
+  class Application < Rails::Application
+  end
+end

@@ -15,18 +15,13 @@
 # limitations under the License.
 #
 
-barclamp:
-  name: 'updater'
-  display: 'Updater'
-  description: 'System Package Updater'
-  version: 0
-  user_managed: true
-  member:
-    - 'crowbar'
+gemfile = File.expand_path("<%= gemfile_path %>", __FILE__)
 
-crowbar:
-  layout: 1
-  order: 99
-  run_order: 99
-  chef_order: 99
-  proposal_schema_version: 3
+if File.exist? gemfile
+  ENV["BUNDLE_GEMFILE"] = gemfile
+
+  require "bundler"
+  Bundler.setup
+end
+
+$LOAD_PATH.unshift File.expand_path("../../../../lib", __FILE__)

@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 #
 # Copyright 2011-2013, Dell
 # Copyright 2013-2015, SUSE Linux GmbH
@@ -15,18 +16,11 @@
 # limitations under the License.
 #
 
-barclamp:
-  name: 'updater'
-  display: 'Updater'
-  description: 'System Package Updater'
-  version: 0
-  user_managed: true
-  member:
-    - 'crowbar'
+ENGINE_ROOT = File.expand_path("../..", __FILE__)
+ENGINE_PATH = File.expand_path("../../lib/barclamp/updater/engine", __FILE__)
 
-crowbar:
-  layout: 1
-  order: 99
-  run_order: 99
-  chef_order: 99
-  proposal_schema_version: 3
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../../Gemfile", __FILE__)
+require "bundler/setup" if File.exist?(ENV["BUNDLE_GEMFILE"])
+
+require "rails/all"
+require "rails/engine/commands"

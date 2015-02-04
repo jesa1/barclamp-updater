@@ -1,5 +1,15 @@
 language: ruby
 rvm:
   - 2.1.0
-  - 1.9.3
-  - 1.8.7
+
+before_script: bundle exec rake barclamp:updater:dummy --trace
+
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.net#crowbar"
+    template:
+      - "%{repository_slug} (%{commit}) : %{message} by %{author}"
+      - "You can see details at %{build_url}"
+    on_success: change
+    on_failure: always

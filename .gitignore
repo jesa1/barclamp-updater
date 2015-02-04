@@ -1,8 +1,15 @@
 .DS_Store
-*~
 
-.coverage/
-rubydeps.*
+/.idea
+/.yardoc
+/.bundle
 
-Gemfile.lock
-crowbar_framework/public/
+/coverage
+/pkg
+/doc
+
+/Gemfile.lock
+
+/log/*.log
+/public/assets
+/spec/dummy
